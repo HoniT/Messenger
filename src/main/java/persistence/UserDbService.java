@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.Root;
 import org.mindrot.jbcrypt.BCrypt;
 import persistence.entities.User;
 
+import java.util.List;
 import java.util.UUID;
 
 public class UserDbService extends DbService {
@@ -73,9 +74,14 @@ public class UserDbService extends DbService {
         });
     }
 
-    public boolean removeSessionId(Long userId) {
+    public boolean removeSessionId(UUID oldSessionId) {
         return runInTransaction(em -> {
-            User user = em.find(User.class, userId);
+            User user = em.createQuery("SELECT u FROM User u WHERE u.currSession = :sessionId", User.class)
+                    .setParameter("sessionId", oldSessionId)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
+
             if (user == null) return false;
 
             // Clear the session by setting it to null
@@ -83,6 +89,14 @@ public class UserDbService extends DbService {
 
             return true;
         });
+    }
+
+    /// Gets all users. Only for testing
+    public List<User> getAllUsers() {
+        return runInTransaction(em ->
+            em.createQuery("SELECT u FROM User u", User.class)
+                    .getResultList()
+        );
     }
 
     public static synchronized UserDbService getInstance() {
