@@ -1,7 +1,7 @@
 package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import contracts.users.SessionRequest;
+import contracts.SessionRequest;
 import contracts.users.UserRequest;
 import contracts.users.UserResponse;
 import jakarta.servlet.ServletConfig;
@@ -38,6 +38,7 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    /// Gets all users. Only for testing
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         objectMapper.writeValue(resp.getWriter(), _db.getAllUsers());
@@ -72,9 +73,9 @@ public class UserServlet extends HttpServlet {
         }
 
         User user = _db.addUser(userRequest.getUsername(), userRequest.getPassword(), UUID.randomUUID());
-        objectMapper.writeValue(resp.getWriter(), new UserResponse(user.getCurrSession()));
+        objectMapper.writeValue(resp.getWriter(), new UserResponse(user.getUsername(), user.getCurrSession()));
 
-        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
     }
@@ -106,7 +107,7 @@ public class UserServlet extends HttpServlet {
             return;
         }
 
-        objectMapper.writeValue(resp.getWriter(), new UserResponse(newUuid));
+        objectMapper.writeValue(resp.getWriter(), new UserResponse(user.getUsername(), newUuid));
 
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setCharacterEncoding("UTF-8");

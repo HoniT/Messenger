@@ -32,7 +32,4 @@ public class Message {
 
     @Column(name = "sent_at")
     private OffsetDateTime sentAt = OffsetDateTime.now();
-
-    @Column(name = "is_read")
-    private boolean isRead = false;
 }

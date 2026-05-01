@@ -1,4 +1,4 @@
-package contracts.users;
+package contracts;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @Accessors(chain = true)
-public class UserResponse {
-    private String username;
+public class SessionRequest {
     private UUID sessionId;
 }

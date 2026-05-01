@@ -1,4 +1,4 @@
-package contracts.users;
+package contracts.messages;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @Accessors(chain = true)
-public class SessionRequest {
-    private UUID sessionId;
+public class SendMessageRequest {
+    private UUID senderSessionId;
+
+    private String targetUsername;
+    private String message;
 }

@@ -41,6 +41,14 @@ public class UserDbService extends DbService {
         });
     }
 
+    public User getUserBySession(UUID oldSessionId) {
+        return runInTransaction(em -> em.createQuery("SELECT u FROM User u WHERE u.currSession = :sessionId", User.class)
+                    .setParameter("sessionId", oldSessionId)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null));
+    }
+
     public boolean checkUser(String username) {
         return runInTransaction(em -> {
             Long count = em.createQuery("SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class)
