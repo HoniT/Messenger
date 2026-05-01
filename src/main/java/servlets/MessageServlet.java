@@ -14,6 +14,7 @@ import persistence.UserDbService;
 import persistence.entities.Message;
 import persistence.entities.User;
 import util.ErrorUtil;
+import util.MessageValidator;
 
 import java.io.IOException;
 import java.util.List;
@@ -79,8 +80,10 @@ public class MessageServlet extends HttpServlet {
             ErrorUtil.sendError(resp, HttpServletResponse.SC_UNPROCESSABLE_CONTENT, "Target username is required");
             return;
         }
-        if(request.getMessage() == null) {
-            ErrorUtil.sendError(resp, HttpServletResponse.SC_UNPROCESSABLE_CONTENT, "Message is required");
+
+        boolean validMessage = MessageValidator.getInstance().isValid(request.getMessage());
+        if(!validMessage) {
+            ErrorUtil.sendError(resp, HttpServletResponse.SC_UNPROCESSABLE_CONTENT, MessageValidator.errorMessage);
             return;
         }
 
