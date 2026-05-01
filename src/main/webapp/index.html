@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="auth-container">
+    <h2>Welcome</h2>
+    <label for="auth-username"></label><input type="text" id="auth-username" placeholder="Username"/>
+    <label for="auth-password"></label><input type="password" id="auth-password" placeholder="Password"/>
+    <div class="auth-buttons">
+        <button onclick="login()">Login</button>
+        <button onclick="register()">Register</button>
+    </div>
+    <p id="auth-error"></p>
+</div>
+
+<div id="chat-container" class="hidden">
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <span id="current-user-label"></span>
+            <button onclick="logout()">Logout</button>
+        </div>
+        <div class="new-chat">
+            <label for="new-contact-username"></label><input type="text" id="new-contact-username" placeholder="New chat username...">
+            <button onclick="openChatFromInput()">Chat</button>
+        </div>
+        <ul id="contact-list"></ul>
+    </div>
+    <div id="main-chat">
+        <div id="chat-header">
+            <h3 id="chat-target-label">Select a user to chat</h3>
+        </div>
+        <div id="message-list"></div>
+        <div id="message-input-container" class="hidden">
+            <label for="message-input"></label><input type="text" id="message-input" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
